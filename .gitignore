@@ -2,7 +2,7 @@
 *.d
 
 # file
-*iccls-cache
+*.ccls-cache
 
 # Object files
 *.o
