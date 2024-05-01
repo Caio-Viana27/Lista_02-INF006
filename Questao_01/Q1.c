@@ -10,10 +10,9 @@ typedef struct {
   int sumOfIntegers;
 } start;
 
-void insertion_sort_Integers (start array[], int length);
-void insertion_sort_Start (start array[], int length);
-void simple_Pass (start array_A, start array_B);
-void swapping_Start (start array[], int size_A, int size_B);
+void insertion_sort_integers (start array[], int length);
+void insertion_sort_start (start array[], int length);
+void simple_pass (start array_A, start array_B);
 
 int main() {
 
@@ -74,8 +73,8 @@ int main() {
     sizeOfStart++;
   }
 
-  insertion_sort_Integers (array, sizeOfStart);
-  insertion_sort_Start (array, sizeOfStart);
+  insertion_sort_integers (array, sizeOfStart);
+  //insertion_sort_start (array, sizeOfStart);
 
   for (int i = 0; i < sizeOfStart; i++) {
     for (int j = 0; j < array[i].sizeOfIntegers; j++) {
@@ -90,7 +89,7 @@ int main() {
   return 0;
 }
 
-void insertion_sort_Integers (start array[], int length) {
+void insertion_sort_integers (start array[], int length) {
 
   for (int j = 0; j < length; j++) {
     for (int i = 1; i < array[j].sizeOfIntegers; i++) {
@@ -109,18 +108,18 @@ void insertion_sort_start (start array[], int length) {
 
   for (int i = 1; i < length; i++) {
     start key;
-    simple_Pass (key, array[i]);
+    simple_pass (key, array[i]);
 
     int k = i - 1;
     while (k >= 0 && array[k].sumOfIntegers > key.sumOfIntegers) {
-      simple_Pass(array[k + 1], array[k]);
+      simple_pass (array[k + 1], array[k]);
       k--;
     }
-    simple_Pass (array[k + 1], key);
+    simple_pass (array[k + 1], key);
   }
 }
 
-void simple_Pass (start array_A, start array_B) {
+void simple_pass (start array_A, start array_B) {
   for (int i = 0; i < array_A.sizeOfIntegers; i++) {
     array_A.Integer[i] = array_B.Integer[i];
   }
