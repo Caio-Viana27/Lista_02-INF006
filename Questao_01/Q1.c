@@ -3,9 +3,10 @@
 #include <string.h>
 #define linhas 1
 #define size 1000
+#define size_of_integers 100
 
 typedef struct {
-  int Integer[size];
+  int Integer[size_of_integers];
   int sizeOfIntegers;
   int sumOfIntegers;
 } start;
@@ -30,20 +31,21 @@ int main() {
   }
   fclose(saida);
 
-  start array[size];
-
   char buffer[size];
-  int linhasLidas = 1;
-  int sizeOfStart = 0;
-  while (fgets(buffer, sizeof(buffer), file) != NULL/* linhasLidas < linhas */) {
+  int linhasLidas = 0;
+  while (/* fgets(buffer, sizeof(buffer), file) != NULL */linhasLidas < linhas) {
     
-    /* printf("\n");
-    printf("linha %d\n", linhasLidas);
-    printf("\n"); */
+    printf("\n");
+    printf("linha %d\n", linhasLidas+1);
+    printf("\n");
+
+    fgets(buffer, sizeof(buffer), file);
 
     //printf("%s", buffer);
+    start array[size];
+    int sizeOfStart = 0;
     int jCont = 0;
-    array[jCont].sumOfIntegers = 0;
+
     for (int i = 0; buffer[i] != '\0'; i++) {
       int iCont = 0;
       if (buffer[i] >= '0' && buffer[i] <= '9') {
@@ -60,29 +62,22 @@ int main() {
           array[jCont].sizeOfIntegers = iCont;
           i++;
         }
-        /* for (int i = 0; i < iCont; i++) {
-          printf("inteiro %d \n", array[jCont].Integer[i]);
-        }
-        //printf("size %d\n",  array[jCont].sizeOfIntegers);
-        printf("soma %d\n",  array[jCont].sumOfIntegers); */
+        jCont++;
+        sizeOfStart = jCont;
+        array[jCont].sumOfIntegers = 0;
       }
-      jCont++;
-      array[jCont].sumOfIntegers = 0;
     }
+    insertion_sort_integers (array, sizeOfStart);
+    insertion_sort_start (array, sizeOfStart);
+    for (int i = 0; i < sizeOfStart; i++) {
+        for (int j = 0; j < array[i].sizeOfIntegers; j++) {
+          printf("inteiro %d\n", array[i].Integer[j]);
+        }
+        printf("\n");
+        printf("soma %d\n",  array[i].sumOfIntegers);
+        printf("\n");
+      }
     linhasLidas++;
-    sizeOfStart++;
-  }
-
-  insertion_sort_integers (array, sizeOfStart);
-  //insertion_sort_start (array, sizeOfStart);
-
-  for (int i = 0; i < sizeOfStart; i++) {
-    for (int j = 0; j < array[i].sizeOfIntegers; j++) {
-      printf("inteiro %d ", array[i].Integer[j]);
-    }
-    printf("\n");
-    printf("soma %d\n",  array[i].sumOfIntegers);
-    printf("\n");
   }
   
   fclose(file);
