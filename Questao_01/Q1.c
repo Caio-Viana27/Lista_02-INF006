@@ -46,7 +46,7 @@ int main() {
 
     for (int i = 0; buffer[i] != '\0' && buffer[i] != '\n'; i++) {
       int iCont = 0;
-      if (buffer[i] >= '0' && buffer[i] <= '9') {
+      if (buffer[i] >= '0' && buffer[i] <= '9' || buffer[i] == '-') {
         array[jCont].sumOfIntegers = 0;
 
         while (buffer[i] != 's' && buffer[i] != '\0' && buffer[i] != '\n') {
