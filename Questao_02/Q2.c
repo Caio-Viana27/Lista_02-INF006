@@ -89,7 +89,7 @@ void Push (Stack stack, char name[]) {
 }
 
 char* Pop (Stack stack) {
-    if (Stack_is_Empty) {
+    if (Stack_is_Empty (stack)) {
         printf("stack is already empty!");
         return NULL;
     }
