@@ -25,7 +25,7 @@ int main() {
     return 1;
   }
   FILE *saida;
-  saida = fopen("L1Q1.out", "a+");
+  saida = fopen("L1Q1.out", "w+");
   if (saida == NULL) {
     printf("Erro ao abrir o arquivo.out!\n");
     return 1;
