@@ -50,12 +50,12 @@ FILE* file;
 FILE* output;
 
 int main() { // L1Q3.in / examples_1.in / examples_2.in
-    file = fopen("L1Q3.in", "r");
+    file = fopen("examples_2.in", "r");
     if (file == NULL) {
         printf("file failed to open!");
         return 1;
     }
-    output = fopen("L1Q3.out", "w+");
+    output = fopen("examples_2.out", "w+");
     if (file == NULL) {
         printf("output file failed to open!");
         return 1;
@@ -220,10 +220,17 @@ void merge_sort (Doubly_linked_list* list) {
             
             current->secondary_list->tail->next = NULL;
             merge_sort_secondary (&current->secondary_list->head);
-            if (current->secondary_list->tail->next != NULL) {
+
+            Singly_linked_node* tail = current->secondary_list->head;
+            while (tail->next != NULL) {
+                tail = tail->next;
+            }
+            current->secondary_list->tail = tail;
+            current->secondary_list->tail->next = current->secondary_list->head;
+            /* if (current->secondary_list->tail->next != NULL) {
                 current->secondary_list->tail = current->secondary_list->tail->next;
                 current->secondary_list->tail->next = current->secondary_list->head;
-            }
+            } */
         }
         current = current->next;
     }
