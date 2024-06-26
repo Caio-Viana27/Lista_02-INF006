@@ -5,6 +5,7 @@
 
 typedef struct _singlylinkednode {
     double num;
+    char string[12];
     struct _singlylinkednode* next;
 } Singly_linked_node;
 
@@ -29,10 +30,10 @@ typedef struct _linkedlist {
 void init_doubly_linked_list (Doubly_linked_list* list);
 void init_singly_linked_list (Singly_linked_list* list);
 void create_doubly_linked_Node (Doubly_linked_list* list, int num);
-void create_singly_circular_linked_Node (Singly_linked_list* list, double num);
-void insert_main_list (Doubly_linked_list* list, double value);
-void read_main_list (Doubly_linked_list* list);
-void read_secondary_list (Singly_linked_list* list);
+void create_singly_circular_linked_Node (Singly_linked_list* list, double num, char* string);
+void insert_main_list (Doubly_linked_list* list, double value, char* string);
+void write_output (Doubly_linked_list* list);
+void write_second_list (Singly_linked_list* list);
 
 void merge_sort (Doubly_linked_list* list);
 void merge_sort_main (Doubly_linked_node** head);
@@ -43,10 +44,20 @@ void merge_sort_secondary (Singly_linked_node** head);
 void partition_secondary (Singly_linked_node* current, Singly_linked_node** front, Singly_linked_node** back);
 Singly_linked_node* merge_lists_secondary (Singly_linked_node* a, Singly_linked_node* b);
 
-int main() {
-    FILE* file = fopen("L1Q3.in", "r");
+void free_memory (Doubly_linked_list* list);
+
+FILE* file;
+FILE* output;
+
+int main() { // L1Q3.in / examples_1.in / examples_2.in
+    file = fopen("L1Q3.in", "r");
     if (file == NULL) {
         printf("file failed to open!");
+        return 1;
+    }
+    output = fopen("L1Q3.out", "w+");
+    if (file == NULL) {
+        printf("output file failed to open!");
         return 1;
     }
 
@@ -75,21 +86,22 @@ int main() {
             if (buffer[i] >= '0' && buffer[i] <= '9' || buffer[i] == '-') {
                 int j = 0;
                 char temp[10];
-                while (buffer[i] != ' ' && buffer[i] != '\0') {
+                while (buffer[i] != ' ' && buffer[i] != '\0' && buffer[i] != '\n') {
                     temp[j] = buffer[i];
                     temp[j + 1] = '\0';
                     j++;
                     i++;
                 }
-                insert_main_list (main_list, atof(temp));
+                insert_main_list (main_list, atof(temp), temp);
             }
             else i++;
         }
     merge_sort (main_list);
-    read_main_list (main_list);
-    free(main_list);
+    write_output (main_list);
+    free_memory (main_list);
     }
     fclose(file);
+    fclose(output);
     return 0;
 }
 
@@ -123,9 +135,10 @@ void create_doubly_linked_Node (Doubly_linked_list* list, int value) {
     }
 }
 
-void create_singly_circular_linked_Node (Singly_linked_list* list, double value) {
+void create_singly_circular_linked_Node (Singly_linked_list* list, double value, char* string) {
     Singly_linked_node* new_node = (Singly_linked_node*) malloc(sizeof(Singly_linked_node));
     new_node->num = value;
+    strcpy(new_node->string, string);
 
     if (list->head == NULL) {
         list->tail = list->head = new_node;
@@ -138,19 +151,19 @@ void create_singly_circular_linked_Node (Singly_linked_list* list, double value)
     }
 }
 
-void insert_main_list (Doubly_linked_list* list, double value) {
+void insert_main_list (Doubly_linked_list* list, double value, char* string) {
     Doubly_linked_node* current = (Doubly_linked_node*) malloc(sizeof(Doubly_linked_node));
     current = list->head;
 
     while (current != NULL) {
         if (value >= 0) {
             if (value > current->num && value < current->num + 1) {
-            create_singly_circular_linked_Node (current->secondary_list, value);
+            create_singly_circular_linked_Node (current->secondary_list, value, string);
             }
         }
         else {
             if (value < current->num && value > current->num - 1) {
-            create_singly_circular_linked_Node (current->secondary_list, value);
+            create_singly_circular_linked_Node (current->secondary_list, value, string);
             }
         }
         current = current->next;
@@ -158,34 +171,34 @@ void insert_main_list (Doubly_linked_list* list, double value) {
     free(current);
 }
 
-void read_main_list (Doubly_linked_list* list) {
+void write_output (Doubly_linked_list* list) {
     Doubly_linked_node* current = (Doubly_linked_node*) malloc(sizeof(Doubly_linked_node));
     current = list->head;
 
-    printf("[");
+    fprintf(output, "[");
     while (current != NULL) {
-        printf("%d", current->num);
-        printf("(");
+        fprintf(output, "%d", current->num);
+        fprintf(output, "(");
         if (current->secondary_list->head != NULL) {
-            read_secondary_list (current->secondary_list);
+            write_second_list (current->secondary_list);
         }
-        printf(")");
-        if (current->next != NULL) {printf("->");}
+        fprintf(output, ")");
+        if (current->next != NULL) {fprintf(output, "->");}
         current = current->next;
     }
-    printf("]");
-    printf("\n");
+    fprintf(output, "]");
+    fprintf(output, "\n");
     free(current);
 }
 
-void read_secondary_list (Singly_linked_list* list) {
+void write_second_list (Singly_linked_list* list) {
     Singly_linked_node* current = (Singly_linked_node*) malloc(sizeof(Singly_linked_node));
     current = list->head;
 
     bool control = true;
     while (control) {
-        printf("%.2lf", current->num);
-        if (current != list->tail) {printf("->");}
+        fprintf(output, "%s", current->string);
+        if (current != list->tail) {fprintf(output, "->");}
         if (current == list->tail) {control = false;}
         current = current->next;
     }
@@ -196,14 +209,24 @@ void read_secondary_list (Singly_linked_list* list) {
 
 void merge_sort (Doubly_linked_list* list) {
 
+    merge_sort_main (&list->head);
+
     Doubly_linked_node* current = (Doubly_linked_node*) malloc(sizeof(Doubly_linked_node));
     current = list->head;
 
-    /* while(current != NULL) {
-        merge_sort_secondary (&current->secondary_list->head);
+    while(current != NULL) {
+        if (current->secondary_list->head != NULL &&
+            current->secondary_list->head != current->secondary_list->tail) {
+            
+            current->secondary_list->tail->next = NULL;
+            merge_sort_secondary (&current->secondary_list->head);
+            if (current->secondary_list->tail->next != NULL) {
+                current->secondary_list->tail = current->secondary_list->tail->next;
+                current->secondary_list->tail->next = current->secondary_list->head;
+            }
+        }
         current = current->next;
-    } */
-    merge_sort_main (&list->head);
+    }
     free(current);
 }
 
@@ -284,14 +307,14 @@ void merge_sort_secondary (Singly_linked_node** head) {
 }
 
 void partition_secondary (Singly_linked_node* current,
-                Singly_linked_node** front, Singly_linked_node** back) {
+                          Singly_linked_node** front, Singly_linked_node** back) {
     
     Singly_linked_node* slow;
     Singly_linked_node* fast;
 
     slow = current;
     fast = current->next;
-    while ( fast != NULL) {
+    while (fast != NULL) {
         fast = fast->next;
         if (fast != NULL) {
             slow = slow->next;
@@ -318,4 +341,27 @@ Singly_linked_node* merge_lists_secondary (Singly_linked_node* a, Singly_linked_
         result->next = merge_lists_secondary (a, b->next);
     }
     return (result);
+}
+
+// libera a memória alocada
+
+void free_memory (Doubly_linked_list* list) {
+
+    Doubly_linked_node* current = list->head;
+    while (current != NULL) {
+
+        Singly_linked_node* temp = current->secondary_list->head;
+        if (temp != NULL) {
+            do {
+                Singly_linked_node* next = temp->next;
+                free(temp);
+                temp = next;
+            } while (temp != current->secondary_list->tail);
+        }
+        Doubly_linked_node* next = current->next;
+        free(current->secondary_list);
+        free(current);
+        current = next;
+    }
+    free(list);
 }
