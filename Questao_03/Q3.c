@@ -50,12 +50,12 @@ FILE* file;
 FILE* output;
 
 int main() { // L1Q3.in / examples_1.in / examples_2.in
-    file = fopen("examples_2.in", "r");
+    file = fopen("L1Q3.in", "r");
     if (file == NULL) {
         printf("file failed to open!");
         return 1;
     }
-    output = fopen("examples_2.out", "w+");
+    output = fopen("L1Q3.out", "w+");
     if (file == NULL) {
         printf("output file failed to open!");
         return 1;
@@ -98,7 +98,7 @@ int main() { // L1Q3.in / examples_1.in / examples_2.in
         }
     merge_sort (main_list);
     write_output (main_list);
-    free_memory (main_list);
+    //free_memory (main_list);
     }
     fclose(file);
     fclose(output);

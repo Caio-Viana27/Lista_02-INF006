@@ -4,7 +4,8 @@
 #include <stdbool.h>
 #define SIZE_OF_BUFFER 1000
 #define SIZE_OF_STACK 100
-#define STRING_TEMP 21
+#define STRING_TEMP 51
+#define SIZE 100
 
 // Bom dia meus lindos!!
 // A ideia para resolver essa questão é bem simples
@@ -41,7 +42,7 @@
 
 typedef struct {
     int top;
-    char *stackOfStrings[20];
+    char *stackOfStrings[SIZE];
 } Stack;
 
 void init_Stack (Stack *stack);
@@ -85,7 +86,7 @@ int main () {
 // inicia as stacks
 void init_Stack (Stack *stack) {
     stack->top = -1;
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < SIZE; i++) {
         stack->stackOfStrings[i] = malloc(sizeof(char) * SIZE_OF_STACK);
     }
 }
