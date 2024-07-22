@@ -2,13 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#define TAM 100
-#define TAM_BUFFER 1000
-#define TAM_OF_NUM 21
+#define TAM 1000
+#define TAM_BUFFER 10000
+#define TAM_OF_NUM 51
 
 typedef struct _singlylinkednode {
     double num;
-    char string[12];
+    char string[TAM_OF_NUM];
     struct _singlylinkednode* next;
 } Singly_linked_node;
 
@@ -114,8 +114,8 @@ int main() { // L1Q3-Teste.in / examples_1.in / examples_2.in
         insert_main_list (main_list, secondary_array, size_secondary, stringNum);
         write_output (main_list);
 
-        Doubly_linked_node* head = main_list->head;
-        free_memory (&head);
+        //Doubly_linked_node* head = main_list->head;
+        //free_memory (&head);
         free(secondary_array);
         free(main_array);
         free_stringNum(stringNum, size_stringNum);
@@ -308,7 +308,9 @@ void free_memory (Doubly_linked_node** listhead) {
             current = currentNext;
         }
         else {
-        current = current->next;
+            Doubly_linked_node* currentNext = current->next;
+            free(current);
+            current = currentNext;
         }
     }
     free(*listhead);

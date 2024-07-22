@@ -2,10 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#define SIZE_OF_BUFFER 1000
-#define SIZE_OF_STACK 100
-#define STRING_TEMP 51
-#define SIZE 100
+#define SIZE_OF_BUFFER 10000
+#define SIZE_OF_STRING 101
+#define NUMBER_OF_STRINGS 1000
 
 // Bom dia meus lindos!!
 // A ideia para resolver essa questão é bem simples
@@ -42,7 +41,7 @@
 
 typedef struct {
     int top;
-    char *stackOfStrings[SIZE];
+    char *stackOfStrings[NUMBER_OF_STRINGS];
 } Stack;
 
 void init_Stack (Stack *stack);
@@ -86,8 +85,8 @@ int main () {
 // inicia as stacks
 void init_Stack (Stack *stack) {
     stack->top = -1;
-    for (int i = 0; i < SIZE; i++) {
-        stack->stackOfStrings[i] = malloc(sizeof(char) * SIZE_OF_STACK);
+    for (int i = 0; i < NUMBER_OF_STRINGS; i++) {
+        stack->stackOfStrings[i] = malloc(sizeof(char) * SIZE_OF_STRING);
     }
 }
 
@@ -99,7 +98,7 @@ void get_Name (char buffer[], Stack *Main_Stack, Stack *Aux_Stack, bool newLine)
 
     while (buffer[i] != '\0' && buffer[i] != '\n') {
         int j = 0;
-        char name[STRING_TEMP];
+        char name[SIZE_OF_STRING];
         while (buffer[i] != ' ' && buffer[i] != '\0' && buffer[i] != '\n') {
             name[j] = buffer[i];
             name[j + 1] = '\0';
@@ -125,7 +124,7 @@ void get_Name (char buffer[], Stack *Main_Stack, Stack *Aux_Stack, bool newLine)
         else {
             int Qtd_POP = 0;
             while (Main_Stack->top > -1 && strcmp (name, Main_Stack->stackOfStrings[Main_Stack->top]) < 0) {
-                char TempString[STRING_TEMP];
+                char TempString[SIZE_OF_STRING];
                 int position = Pop (Main_Stack);
                  Qtd_POP++;
                 strcpy (TempString, Main_Stack->stackOfStrings[position]);
@@ -135,7 +134,7 @@ void get_Name (char buffer[], Stack *Main_Stack, Stack *Aux_Stack, bool newLine)
             Push (Main_Stack, name);
             fprintf(output, " push-%s", name);
             while (!Stack_is_Empty (Aux_Stack)) {
-                char TempString[STRING_TEMP];
+                char TempString[SIZE_OF_STRING];
                 int position = Pop (Aux_Stack);
                 strcpy (TempString, Aux_Stack->stackOfStrings[position]);
                 Push (Main_Stack, TempString);

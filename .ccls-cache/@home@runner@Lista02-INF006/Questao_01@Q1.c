@@ -2,12 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#define linhas 1
-#define size 1000
-#define size_of_integers 100
+#define SIZE_OF_BUFFER 10000
+#define SIZE_OF_ARRAY 1000
 
 typedef struct {
-  int Integer[size_of_integers];
+  int Integer[SIZE_OF_ARRAY];
   int sizeOfIntegers;
   int sumOfIntegers;
 } start;
@@ -31,10 +30,10 @@ int main() {
     return 1;
   }
 
-  char buffer[size];
+  char buffer[SIZE_OF_BUFFER];
   while (fgets(buffer, sizeof(buffer), file) != NULL) {
 
-    start array[size];
+    start array[SIZE_OF_ARRAY];
     int sizeOfStart = 0;
     int jCont = 0;
 
