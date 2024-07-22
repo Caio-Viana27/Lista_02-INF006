@@ -55,12 +55,12 @@ FILE *output;
 
 int main () {
 
-    file = fopen("L1Q2.in", "r");
+    file = fopen("L1Q2.in", "r"); // L1Q2-Teste.in
     if (file == NULL) {
         printf("Erro ao abrir o arquivo.in!\n");
         return 1;
     }
-    output = fopen("L1Q2.out", "w+");
+    output = fopen("L1Q2.out", "w+"); // L1Q2-Teste.out
     if (file == NULL) {
         printf("Erro ao abrir o arquivo.out!\n");
         return 1;
@@ -168,8 +168,3 @@ int Pop (Stack *stack) {
         return temp;
     }
 }
-
-// for (int i = Main_Stack.top; i > -1; i--) {
-//         printf ("%s\n", Main_Stack.stackOfStrings[i]);
-//     }
-//     printf("\n");
