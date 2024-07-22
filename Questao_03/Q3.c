@@ -50,7 +50,7 @@ void free_memory (Doubly_linked_list* list);
 FILE* file;
 FILE* output;
 
-int main() { // L1Q3.in / examples_1.in / examples_2.in
+int main() { // L1Q3-Teste.in / examples_1.in / examples_2.in
     file = fopen("L1Q3.in", "r");
     if (file == NULL) {
         printf("file failed to open!");

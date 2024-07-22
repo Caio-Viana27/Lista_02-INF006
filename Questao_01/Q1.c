@@ -18,13 +18,13 @@ start simple_pass (start array_B);
 
 int main() {
 
-  FILE *file;
+  FILE *file; //L1Q1-Teste.in
   file = fopen("L1Q1.in", "r");
   if (file == NULL) {
     printf("Erro ao abrir o arquivo.in!\n");
     return 1;
   }
-  FILE *saida;
+  FILE *saida; //L1Q1-Teste.out
   saida = fopen("L1Q1.out", "w+");
   if (saida == NULL) {
     printf("Erro ao abrir o arquivo.out!\n");
@@ -32,14 +32,8 @@ int main() {
   }
 
   char buffer[size];
-  int linhasLidas = 0;
-  while (fgets(buffer, sizeof(buffer), file) != NULL/* linhasLidas < linhas */) {
-    //fgets(buffer, sizeof(buffer), file);
-    //printf("\n");
-    //printf("linha %d\n", linhasLidas+1);
-    //printf("\n");
+  while (fgets(buffer, sizeof(buffer), file) != NULL) {
 
-    //printf("%s", buffer);
     start array[size];
     int sizeOfStart = 0;
     int jCont = 0;
@@ -70,20 +64,16 @@ int main() {
     insertion_sort_start (array, sizeOfStart);
 
     for (int i = 0; i < sizeOfStart; i++) {
+      if (array[i].sumOfIntegers == array[i + 1].sumOfIntegers &&
+          i + 1 != sizeOfStart) {continue;}
+
       if (i > 0) fprintf(saida, " ");
       fprintf(saida, "start");
-      //printf("start ");
       for (int j = 0; j < array[i].sizeOfIntegers; j++) {
-        //printf(" %d", array[i].Integer[j]);
         fprintf(saida," %d", array[i].Integer[j]);
       }
-      //printf("\n");
-      //printf("soma %d\n",  array[i].sumOfIntegers);
-      //printf("\n");
     }
-    //printf("\n");
     fprintf(saida, "\n");
-    linhasLidas++;
   }
   
   fclose(file);
