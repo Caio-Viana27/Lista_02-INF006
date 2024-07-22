@@ -114,27 +114,15 @@ int main() { // L1Q3.in / examples_1.in / examples_2.in
             }
             else i++;
         }
-<<<<<<< HEAD
         insertion_sort(main_array, size_main, secondary_array, size_secondary);
         create_doubly_linked_Node (main_list, main_array, size_main);
         insert_main_list (main_list, secondary_array, size_secondary, stringNum);
 
         write_output (main_list);
-        free_memory (main_list);
+        //free_memory (main_list);
         free(secondary_array);
         free(main_array);
         free_stringNum(stringNum, size_stringNum);
-=======
-        insertion_sort(main_array, size_main, secondary_array, size_secondary);
-        create_doubly_linked_Node (main_list, main_array, size_main);
-        insert_main_list (main_list, secondary_array, size_secondary, stringNum);
-
-        write_output (main_list);
-        free_memory (main_list);
-        free(secondary_array);
-        free(main_array);
-        free_stringNum(stringNum, size_stringNum);
->>>>>>> 4eb14f571b710e13cc0ecc2be2b20c98043ca968
     }
     fclose(file);
     fclose(output);
