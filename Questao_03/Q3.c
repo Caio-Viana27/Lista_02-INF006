@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #define TAM 100
 #define TAM_BUFFER 1000
+#define TAM_OF_NUM 21
 
 typedef struct _singlylinkednode {
     double num;
@@ -28,12 +29,6 @@ typedef struct _linkedlist {
     Doubly_linked_node* tail;
 } Doubly_linked_list;
 
-typedef struct _Multi {
-    char* stringNum[TAM];
-    int* main_array;
-    double* secondary_array;
-} Multi;
-
 void init_doubly_linked_list (Doubly_linked_list* list);
 void init_singly_linked_list (Singly_linked_list* list);
 void create_doubly_linked_Node (Doubly_linked_list* list, int* array, int size);
@@ -45,7 +40,7 @@ void write_second_list (Singly_linked_list* list);
 void insertion_sort (int* array_1, int length1, double* array_2, int length2);
 void printArray (int* array_1, int size1, double* array_2, int size2);
 void free_stringNum (char**stringNum, int size);
-void free_memory (Doubly_linked_list* list);
+void free_memory (Doubly_linked_node** listhead);
 
 FILE* file;
 FILE* output;
@@ -80,7 +75,7 @@ int main() { // L1Q3-Teste.in / examples_1.in / examples_2.in
             
             if (buffer[i] >= '0' && buffer[i] <= '9' || buffer[i] == '-') {
                 int j = 0;
-                char* temp = malloc(sizeof(char) * 12);
+                char* temp = malloc(sizeof(char) * TAM_OF_NUM);
                 while (buffer[i] != ' ') {
                     temp[j] = buffer[i];
                     temp[j + 1] = '\0';
@@ -97,14 +92,14 @@ int main() { // L1Q3-Teste.in / examples_1.in / examples_2.in
 
             if (buffer[i] >= '0' && buffer[i] <= '9' || buffer[i] == '-') {
                 int j = 0;
-                char* temp = malloc(sizeof(char) * 12);
+                char* temp = malloc(sizeof(char) * TAM_OF_NUM);
                 while (buffer[i] != ' ' && buffer[i] != '\0' && buffer[i] != '\n') {
                     temp[j] = buffer[i];
                     temp[j + 1] = '\0';
                     j++;
                     i++;
                 }
-                stringNum[size_stringNum] = malloc(sizeof(char) * 12);
+                stringNum[size_stringNum] = malloc(sizeof(char) * TAM_OF_NUM);
                 strcpy(stringNum[size_stringNum], temp);
                 size_stringNum++;
                 stringNum[size_stringNum] = NULL;
@@ -117,9 +112,10 @@ int main() { // L1Q3-Teste.in / examples_1.in / examples_2.in
         insertion_sort(main_array, size_main, secondary_array, size_secondary);
         create_doubly_linked_Node (main_list, main_array, size_main);
         insert_main_list (main_list, secondary_array, size_secondary, stringNum);
-
         write_output (main_list);
-        //free_memory (main_list);
+
+        Doubly_linked_node* head = main_list->head;
+        free_memory (&head);
         free(secondary_array);
         free(main_array);
         free_stringNum(stringNum, size_stringNum);
@@ -282,6 +278,7 @@ void write_second_list (Singly_linked_list* list) {
         if (current == list->tail) {control = false;}
         current = current->next;
     }
+    current = NULL;
     free(current);
 }
 
@@ -293,23 +290,26 @@ void free_stringNum (char**stringNum, int size) {
     }
 }
 
-void free_memory (Doubly_linked_list* list) {
+void free_memory (Doubly_linked_node** listhead) {
 
-    Doubly_linked_node* current = list->head;
+    Doubly_linked_node* current = *listhead;
     while (current != NULL) {
-
-        Singly_linked_node* temp = current->secondary_list->head;
-        if (temp != NULL) {
-            do {
-                Singly_linked_node* next = temp->next;
-                free(temp);
-                temp = next;
-            } while (temp != current->secondary_list->tail);
+        if (current->secondary_list->head != NULL) {
+            current->secondary_list->tail->next = NULL;
+            Singly_linked_node* temp = current->secondary_list->head;
+            while (temp != NULL){
+            Singly_linked_node* tempNext = temp->next;
+            free(temp);
+            temp = tempNext;
+            }
+            Doubly_linked_node* currentNext = current->next;
+            free(current->secondary_list);
+            free(current);
+            current = currentNext;
         }
-        Doubly_linked_node* next = current->next;
-        free(current->secondary_list);
-        free(current);
-        current = next;
+        else {
+        current = current->next;
+        }
     }
-    free(list);
+    free(*listhead);
 }
