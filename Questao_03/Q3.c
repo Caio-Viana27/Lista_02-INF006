@@ -93,7 +93,7 @@ int main() { // L1Q3-Teste.in / examples_1.in / examples_2.in
             if (buffer[i] >= '0' && buffer[i] <= '9' || buffer[i] == '-') {
                 int j = 0;
                 char* temp = malloc(sizeof(char) * TAM_OF_NUM);
-                while (buffer[i] != ' ' && buffer[i] != '\0' && buffer[i] != '\n') {
+                while (buffer[i] != ' ' && buffer[i] != '\0' && buffer[i] != '\n' && buffer[i] != '\r') {
                     temp[j] = buffer[i];
                     temp[j + 1] = '\0';
                     j++;
@@ -114,8 +114,8 @@ int main() { // L1Q3-Teste.in / examples_1.in / examples_2.in
         insert_main_list (main_list, secondary_array, size_secondary, stringNum);
         write_output (main_list);
 
-        //Doubly_linked_node* head = main_list->head;
-        //free_memory (&head);
+        Doubly_linked_node* head = main_list->head;
+        free_memory (&head);
         free(secondary_array);
         free(main_array);
         free_stringNum(stringNum, size_stringNum);
@@ -313,5 +313,4 @@ void free_memory (Doubly_linked_node** listhead) {
             current = currentNext;
         }
     }
-    free(*listhead);
 }

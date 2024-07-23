@@ -42,7 +42,7 @@ int main() {
       if (buffer[i] >= '0' && buffer[i] <= '9' || buffer[i] == '-') {
         array[jCont].sumOfIntegers = 0;
 
-        while (buffer[i] != 's' && buffer[i] != '\0' && buffer[i] != '\n') {
+        while (buffer[i] != 's' && buffer[i] != '\0' && buffer[i] != '\n' && buffer[i] != '\r') {
           char num[100];
           for (int j = 0; buffer[i] != ' ' && buffer[i] != '\0' && buffer[i] != '\n'; j++, i++) {
             num[j] = buffer[i];

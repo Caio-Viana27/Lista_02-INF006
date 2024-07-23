@@ -99,7 +99,7 @@ void get_Name (char buffer[], Stack *Main_Stack, Stack *Aux_Stack, bool newLine)
     while (buffer[i] != '\0' && buffer[i] != '\n') {
         int j = 0;
         char name[SIZE_OF_STRING];
-        while (buffer[i] != ' ' && buffer[i] != '\0' && buffer[i] != '\n') {
+        while (buffer[i] != ' ' && buffer[i] != '\0' && buffer[i] != '\n' && buffer[i] != '\r') {
             name[j] = buffer[i];
             name[j + 1] = '\0';
             j++;
